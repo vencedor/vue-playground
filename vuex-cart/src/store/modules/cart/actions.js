@@ -16,9 +16,12 @@ export const addProductToCart = ({ commit, dispatch }, { product, quantity }) =>
 
 export const getCartItems = ({ commit }) => {
     Cart.all().then(response => {
-        // eslint-disable-next-line no-console
-        console.log(response.data);
-        commit('SET_CART', response.data);
+        if(typeof response.data=='object')
+            commit('SET_CART', response.data);
+        else{
+            // dispatch error, if it is not cought by api.js
+        }
+
     })
 }
 

@@ -28,7 +28,7 @@ export default {
   created() {
     this.timeout = setTimeout(() => {
       this.removeNotification(this.notification);
-    }, 3000);
+    }, 20000);
   },
 
   beforeDestroy() {

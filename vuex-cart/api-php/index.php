@@ -54,6 +54,7 @@ switch($_REQUEST['route']){
         if(stripos($_REQUEST['route'],'/')!==false AND $_SERVER['REQUEST_METHOD']=='DELETE'){
             $product_id=@end(@explode('/',$_REQUEST['route']));
             unset($_SESSION['cart'][$product_id]);
+            echo json_encode(array('status'=>true));
         }elseif(!empty($payload['product_id']) AND is_numeric($payload['product_id'])){
             if( !empty(@$_SESSION['cart'][$payload['product_id']]) ){
                 @$_SESSION['cart'][$payload['product_id']]['quantity']++;
@@ -67,12 +68,13 @@ switch($_REQUEST['route']){
             }
             echo json_encode($_SESSION['cart'][$payload['product_id']]);
         }else{
-            echo json_encode((array_values($_SESSION['cart'])));
+            echo json_encode((array_values((array)@$_SESSION['cart'])));
         }
     break;
     default:
         if(stripos($_REQUEST['route'],'/')!==false){
             $product_id=@end(@explode('/',$_REQUEST['route']));
+            echo json_encode(array('status'=>true));
         }else{
             if(!empty($_POST)){
                 // we are saving data
