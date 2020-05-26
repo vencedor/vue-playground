@@ -4,7 +4,6 @@
     <div class="container">
       <router-view></router-view>
     </div>
-
     <notifications-list />
   </div>
 </template>

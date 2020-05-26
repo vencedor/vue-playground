@@ -25,23 +25,18 @@ if(!empty($_REQUEST['debug'])){
 }
 //$_SESSION['cart'][]=array('id'=>21);
 $payload = json_decode(file_get_contents('php://input'), true);
-$products[]=array(
-    'id'=>'3001'
-    ,'title'=>randwrd(15)
-    ,'description'=>randwrd(15)
-    ,'image'=>'https://via.placeholder.com/150x150'
-    ,'price'=>rand(10,100)
-    ,'timestamps'=>time()
-);
 
-$products[]=array(
-    'id'=>'3002'
-    ,'title'=>randwrd(15)
-    ,'description'=>randwrd(15)
-    ,'image'=>'https://via.placeholder.com/150x150'
-    ,'price'=>rand(10,100)
-    ,'timestamps'=>time()
-);
+for($i=1;$i<=8;$i++){
+    $products[]=array(
+        'id'=>(3000+$i)
+        ,'title'=>randwrd(15)
+        ,'description'=>randwrd(15)
+        ,'image'=>'https://via.placeholder.com/150x150'
+        ,'price'=>rand(10,100)
+        ,'timestamps'=>time()
+    );
+}
+
 
 function find_product($product_id,$products){
     foreach($products as $product){
@@ -53,7 +48,7 @@ switch($_REQUEST['route']){
     case (preg_match('/cart.*/', $_REQUEST['route']) ? true : false):
         if(stripos($_REQUEST['route'],'/')!==false AND $_SERVER['REQUEST_METHOD']=='DELETE'){
             $product_id=@end(@explode('/',$_REQUEST['route']));
-            unset($_SESSION['cart'][$product_id]);
+            if(!empty($payload['product_id']))  unset($_SESSION['cart'][$product_id]);
             echo json_encode(array('status'=>true));
         }elseif(!empty($payload['product_id']) AND is_numeric($payload['product_id'])){
             if( !empty(@$_SESSION['cart'][$payload['product_id']]) ){
@@ -68,6 +63,7 @@ switch($_REQUEST['route']){
             }
             echo json_encode($_SESSION['cart'][$payload['product_id']]);
         }else{
+            if($_SERVER['REQUEST_METHOD']=='DELETE') unset($_SESSION['cart']);
             echo json_encode((array_values((array)@$_SESSION['cart'])));
         }
     break;

@@ -3,12 +3,12 @@ import Product from "./pages/Product.vue";
 
 export default [
     {
-        path: '/',
+        path: (process.env.NODE_ENV === 'production'? '/vue_js_playground/vuex-cart/dist/': '/'),
         component: Home,
         name: 'home'
     },
     {
-        path: '/product/:id',
+        path: (process.env.NODE_ENV === 'production'? '/vue_js_playground/vuex-cart/dist/': '/')+'product/:id',
         component: Product,
         name: 'product',
         props: true
